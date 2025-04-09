@@ -11,5 +11,6 @@
 ***
 #### The service will serve as `http://localhost:1400` which contain path below  
 - *`GET /account` for getting account data*  
+- *`GET /health` for service health checking*  
 ***
 ##### *See Makefile for other command*
