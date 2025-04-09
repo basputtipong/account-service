@@ -1,6 +1,9 @@
 package domain
 
-import "account-service/internal/core/port"
+import (
+	"account-service/internal/core/port"
+	"math"
+)
 
 type AccountService interface {
 	Execute(req AccountReq) (AccountRes, error)
@@ -11,7 +14,8 @@ type AccountReq struct {
 }
 
 type AccountRes struct {
-	Accounts []Account `json:"accounts"`
+	Accounts     []Account `json:"accounts"`
+	TotalBalance float64   `json:"totalBalance"`
 }
 
 type Account struct {
@@ -43,6 +47,7 @@ func (res *AccountRes) BuildAccountResponse(repoRes []port.AccountRepoRes, flagR
 		})
 	}
 
+	var totalBalance float64
 	var accounts []Account
 	for _, ele := range repoRes {
 		accounts = append(accounts, Account{
@@ -57,6 +62,8 @@ func (res *AccountRes) BuildAccountResponse(repoRes []port.AccountRepoRes, flagR
 			Progress:      ele.Progress,
 			Flags:         flagMap[ele.AccountId],
 		})
+		totalBalance = totalBalance + ele.Amount
 	}
 	res.Accounts = accounts
+	res.TotalBalance = math.Round(totalBalance*100) / 100
 }
