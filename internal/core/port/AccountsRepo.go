@@ -2,6 +2,7 @@ package port
 
 type AccountsRepo interface {
 	GetByUserId(userId string) ([]AccountRepoRes, error)
+	GetFlagByAccountId(accountIds []string) ([]Flag, error)
 }
 
 const (
@@ -21,7 +22,15 @@ type AccountRepoRes struct {
 	Color         string
 	IsMainAccount bool
 	Progress      int64
-	FlagId        int64
-	FlagType      string
-	FlagValue     string
+}
+
+type Flag struct {
+	FlagId    int64  `gorm:"column:flag_id"`
+	AccountId string `gorm:"column:account_id"`
+	FlagType  string `gorm:"column:flag_type"`
+	FlagValue string `gorm:"column:flag_value"`
+}
+
+func (Flag) TableName() string {
+	return AccountFlagsTbl
 }

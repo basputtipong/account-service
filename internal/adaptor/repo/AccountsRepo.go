@@ -20,11 +20,9 @@ func (r *accountsRepo) GetByUserId(userId string) ([]port.AccountRepoRes, error)
 	err := r.db.Table(port.AccountsTbl+" AS a").
 		Select(`a.account_id, a.type, a.currency, a.account_number, a.issuer,
             ab.amount,
-            ad.color, ad.is_main_account, ad.progress,
-            af.flag_id, af.flag_type, af.flag_value`).
+            ad.color, ad.is_main_account, ad.progress`).
 		Joins(fmt.Sprintf(`LEFT JOIN %s ab ON a.account_id = ab.account_id`, port.AccountBalancesTbl)).
 		Joins(fmt.Sprintf(`LEFT JOIN %s ad ON ab.account_id = ad.account_id`, port.AccountDetailsTbl)).
-		Joins(fmt.Sprintf(`LEFT JOIN %s af ON ad.account_id = af.account_id`, port.AccountFlagsTbl)).
 		Where("a.user_id = ?", userId).
 		Scan(&repoRes).Error
 
@@ -33,4 +31,14 @@ func (r *accountsRepo) GetByUserId(userId string) ([]port.AccountRepoRes, error)
 	}
 
 	return repoRes, nil
+}
+
+func (r *accountsRepo) GetFlagByAccountId(accountIds []string) ([]port.Flag, error) {
+	var flagRes []port.Flag
+	err := r.db.Where("account_id in ?", accountIds).Find(&flagRes).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return flagRes, nil
 }

@@ -20,6 +20,21 @@ func (s *accountSvc) Execute(req domain.AccountReq) (domain.AccountRes, error) {
 		return res, err
 	}
 
-	res.BuildAccountResponse(repoRes)
+	accountIds := buildGetFlagReq(repoRes)
+	flagRes, err := s.accountRepo.GetFlagByAccountId(accountIds)
+	if err != nil {
+		return res, err
+	}
+
+	res.BuildAccountResponse(repoRes, flagRes)
 	return res, nil
+}
+
+func buildGetFlagReq(repoRes []port.AccountRepoRes) []string {
+	var accountIds []string
+	for _, ele := range repoRes {
+		accountIds = append(accountIds, ele.AccountId)
+	}
+
+	return accountIds
 }

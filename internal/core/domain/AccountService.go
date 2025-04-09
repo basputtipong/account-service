@@ -24,12 +24,25 @@ type Account struct {
 	Color         string  `json:"color"`
 	IsMainAccount bool    `json:"isMainAccount"`
 	Progress      int64   `json:"progress"`
-	FlagId        int64   `json:"flagId"`
-	FlagType      string  `json:"flagType"`
-	FlagValue     string  `json:"flagValue"`
+	Flags         []Flag  `json:"flags"`
 }
 
-func (res *AccountRes) BuildAccountResponse(repoRes []port.AccountRepoRes) {
+type Flag struct {
+	FlagId    int64  `json:"flagId"`
+	FlagType  string `json:"flagType"`
+	FlagValue string `json:"flagValue"`
+}
+
+func (res *AccountRes) BuildAccountResponse(repoRes []port.AccountRepoRes, flagRes []port.Flag) {
+	flagMap := make(map[string][]Flag)
+	for _, f := range flagRes {
+		flagMap[f.AccountId] = append(flagMap[f.AccountId], Flag{
+			FlagId:    f.FlagId,
+			FlagType:  f.FlagType,
+			FlagValue: f.FlagValue,
+		})
+	}
+
 	var accounts []Account
 	for _, ele := range repoRes {
 		accounts = append(accounts, Account{
@@ -42,9 +55,7 @@ func (res *AccountRes) BuildAccountResponse(repoRes []port.AccountRepoRes) {
 			Color:         ele.Color,
 			IsMainAccount: ele.IsMainAccount,
 			Progress:      ele.Progress,
-			FlagId:        ele.FlagId,
-			FlagType:      ele.FlagType,
-			FlagValue:     ele.FlagValue,
+			Flags:         flagMap[ele.AccountId],
 		})
 	}
 	res.Accounts = accounts
