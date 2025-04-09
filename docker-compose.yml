@@ -6,10 +6,6 @@ services:
     image: account-service
     environment:
       DB_HOST: db
-      DB_PORT: 3306
-      DB_USER: devusr
-      DB_PASS: devpassword
-      DB_NAME: devdb
     ports:
       - "1400:1400"
     networks:
