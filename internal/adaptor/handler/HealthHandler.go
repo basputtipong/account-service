@@ -3,6 +3,7 @@ package handler
 import (
 	"account-service/infrastructure"
 	"fmt"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,8 +15,8 @@ func HealthHandle(c *gin.Context) {
 			"status": "unhealthy",
 			"msg":    fmt.Sprintf("unhealthy get error: %s", err.Error()),
 		}
-		c.JSON(500, res)
+		c.JSON(http.StatusInternalServerError, res)
 		return
 	}
-	c.JSON(200, map[string]string{"status": "healthy"})
+	c.JSON(http.StatusOK, map[string]string{"status": "healthy"})
 }
