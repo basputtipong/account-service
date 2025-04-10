@@ -15,7 +15,7 @@ func bindGetAccountRoute(app *gin.Engine) {
 	svc := service.NewAccountSvc(repo)
 	hdl := handler.NewAccountHandler(svc)
 
-	app.GET("/account", libmiddleware.JWTMiddleware(), hdl.Handle)
+	app.GET("/account", libmiddleware.JWTVerify(), hdl.Handle)
 }
 
 func bindGetTransactionRoute(app *gin.Engine) {
@@ -23,7 +23,7 @@ func bindGetTransactionRoute(app *gin.Engine) {
 	svc := service.NewTransactionSvc(repo)
 	hdl := handler.NewTransactionHandler(svc)
 
-	app.GET("/transactions", libmiddleware.JWTMiddleware(), hdl.Handle)
+	app.GET("/transactions", libmiddleware.JWTVerify(), hdl.Handle)
 }
 
 func bindUpdateAccountRoute(app *gin.Engine) {
@@ -31,7 +31,7 @@ func bindUpdateAccountRoute(app *gin.Engine) {
 	svc := service.NewUpdateAccountSvc(repo)
 	hdl := handler.NewUpdateAccountHandler(svc)
 
-	app.PUT("/update-account", libmiddleware.JWTMiddleware(), hdl.Handle)
+	app.PUT("/update-account", libmiddleware.JWTVerify(), hdl.Handle)
 }
 
 func bindHelthRoute(app *gin.Engine) {
