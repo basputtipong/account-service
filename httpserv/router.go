@@ -26,6 +26,14 @@ func bindGetTransactionRoute(app *gin.Engine) {
 	app.GET("/transactions", libmiddleware.JWTMiddleware(), hdl.Handle)
 }
 
+func bindUpdateAccountRoute(app *gin.Engine) {
+	repo := repository.NewAccountsRepo(infrastructure.DB)
+	svc := service.NewUpdateAccountSvc(repo)
+	hdl := handler.NewUpdateAccountHandler(svc)
+
+	app.PUT("/update-account", libmiddleware.JWTMiddleware(), hdl.Handle)
+}
+
 func bindHelthRoute(app *gin.Engine) {
 	app.GET("/health", handler.HealthHandle)
 }

@@ -14,6 +14,7 @@ func Run() {
 
 	bindGetAccountRoute(app)
 	bindGetTransactionRoute(app)
+	bindUpdateAccountRoute(app)
 	bindHelthRoute(app)
 
 	port := viper.GetString("app.port")

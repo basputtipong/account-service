@@ -3,6 +3,8 @@ package port
 type AccountsRepo interface {
 	GetByUserId(userId string) ([]AccountRepoRes, error)
 	GetFlagByAccountId(accountIds []string) ([]Flag, error)
+	GetCurrentMainAccountByUserId(userId string) (AccountRepoRes, error)
+	UpdateAccountById(req UpdateAccountRepoReq) error
 }
 
 const (
@@ -33,4 +35,12 @@ type Flag struct {
 
 func (Flag) TableName() string {
 	return AccountFlagsTbl
+}
+
+type UpdateAccountRepoReq struct {
+	UserId           string
+	AccountId        string
+	CurrentMainAccId string
+	IsMainAccount    bool
+	Color            string
 }
