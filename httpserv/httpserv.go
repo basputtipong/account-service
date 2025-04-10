@@ -13,6 +13,7 @@ func Run() {
 	app.Use(liberror.ErrorHandler())
 
 	bindGetAccountRoute(app)
+	bindGetTransactionRoute(app)
 	bindHelthRoute(app)
 
 	port := viper.GetString("app.port")
