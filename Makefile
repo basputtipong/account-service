@@ -22,6 +22,7 @@ test-service:
 	go test -cover ./internal/core/service/...
 
 docker-build:
+	go test -cover ./...
 	docker-compose -f $(COMPOSE_FILE) build
 
 docker-up:
