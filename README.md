@@ -11,6 +11,7 @@
 ***
 #### The service will serve as `http://localhost:1400` which contain path below  
 - *`GET /account` for getting account data*  
+- *`PUT /update-account` for update account data*  
 - *`GET /transactions` for getting transaction data*  
 - *`GET /health` for service health checking*  
 ***
