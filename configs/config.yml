@@ -16,6 +16,9 @@ whitelist:
   domain: ["http://localhost:3000"]
 
 internal:
+  private:
+    key: |
+
   public:
     key: |
       -----BEGIN PUBLIC KEY-----
